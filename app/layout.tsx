@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { BackspaceIcon } from "@heroicons/react/16/solid";
+import { useRouter } from "next/router";
+import BackspaceButton from "@/components/backspace-button";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,8 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-gray-800 h-screen max-w-sm m-auto text-white`}>
+      <body
+        className={`${inter.className} bg-gray-800 h-screen max-w-sm m-auto text-white relative`}
+      >
         {children}
+        <BackspaceButton />
       </body>
     </html>
   );

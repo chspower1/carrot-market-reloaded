@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import Input from "./components/Input";
+import Input from "../components/form-input";
 import Link from "next/link";
 
 export default function Home() {
