@@ -1,16 +1,23 @@
 import React, { InputHTMLAttributes } from "react";
 
 interface InputProps {
-  type: string;
-  placeholder: string;
-  errorMessage: string;
+  name: string;
+  errorMessages?: string[];
 }
 
-function FormInput({ type, placeholder, errorMessage }: InputProps) {
+function FormInput({
+  errorMessages = [],
+  name,
+  ...attr
+}: InputProps & InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div className="w-full relative mb-4">
-      <input type={type} placeholder={placeholder} className="input input-bordered  w-full h-10" />
-      <span className="text-red-500 absolute right-0 -bottom-4 text-sm">{errorMessage}</span>
+      <input name={name} className="input input-bordered  w-full h-10 text-black" {...attr} />
+      <div className="flex flex-col text-red-500  text-right text-sm">
+        {errorMessages.map((message, index) => (
+          <div key={index}>{message}</div>
+        ))}
+      </div>
     </div>
   );
 }
