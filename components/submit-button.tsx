@@ -8,7 +8,11 @@ interface SubmitButtonProps {
 export default function SubmitButton({ children }: SubmitButtonProps) {
   const { pending } = useFormStatus();
   return (
-    <button type="submit" className={clsx("btn btn-accent w-full")} disabled={pending}>
+    <button
+      type="submit"
+      className={clsx("btn btn-accent w-full disabled:bg-gray-50")}
+      disabled={pending}
+    >
       {children}
     </button>
   );

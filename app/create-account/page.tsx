@@ -10,11 +10,7 @@ import Link from "next/link";
 function CreateAccount() {
   const [state, action] = useFormState(registerAction, null);
   return (
-    <form
-      action={action}
-      className="flex flex-col items-center min-h-screen p-6"
-      onChange={console.log}
-    >
+    <form action={action} className="flex flex-col items-center min-h-screen p-6">
       <div className=" text-4xl font-bold mb-10">Sign Up</div>
 
       <FormInput

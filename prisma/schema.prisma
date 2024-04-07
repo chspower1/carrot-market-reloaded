@@ -6,3 +6,26 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id       Int       @id @default(autoincrement())
+  email    String?   @unique
+  password String?
+  phone    String?   @unique
+  naverId  String?   @unique
+  kakaoId  String?   @unique
+  googleId String?   @unique
+  name     String
+  createAt DateTime  @default(now())
+  updateAt DateTime  @updatedAt
+  SMSToken SmsToken?
+}
+
+model SmsToken {
+  id       Int      @id @default(autoincrement())
+  token    String
+  createAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   Int      @unique
+}

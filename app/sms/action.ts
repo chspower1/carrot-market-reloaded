@@ -1,3 +1,4 @@
+import db from "@/lib/db";
 import validator from "validator";
 import { z } from "zod";
 
@@ -18,6 +19,22 @@ export async function smsAction(prevState: SMSForm, formData: FormData) {
     const result = phoneSchema.safeParse(phone);
     if (result.success) {
       // TODO: send token
+      const smsToken = db.smsToken.create({
+        data: {
+          token: "123123",
+          user: {
+            connectOrCreate: {
+              where: {
+                phone: result.data,
+              },
+              create: {
+                name: "random",
+                phone: result.data,
+              },
+            },
+          },
+        },
+      });
       return {
         phone,
         isSendingToken: true,

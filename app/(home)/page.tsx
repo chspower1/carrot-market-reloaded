@@ -1,9 +1,9 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
-import Input from "../components/form-input";
+import Input from "../../components/form-input";
 import Link from "next/link";
-
+import "@/lib/db";
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-between min-h-screen p-6">

@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { BackspaceIcon } from "@heroicons/react/16/solid";
-import { useRouter } from "next/router";
 import BackspaceButton from "@/components/backspace-button";
 
 const inter = Inter({ subsets: ["latin"] });
