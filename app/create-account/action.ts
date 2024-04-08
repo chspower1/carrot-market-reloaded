@@ -3,7 +3,7 @@
 import db from "@/lib/db";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-
+import bcrypt from "bcrypt";
 const checkUniqueEmail = async (email: string) => {
   const user = await db.user.findUnique({
     where: {
@@ -51,6 +51,7 @@ export async function registerAction(prevState: any, formData: FormData) {
     console.log(result.error.flatten());
     return result.error.flatten();
   }
+
   const { email, password, username: name } = result.data;
   try {
     // create user
@@ -58,8 +59,7 @@ export async function registerAction(prevState: any, formData: FormData) {
       data: {
         name,
         email,
-        // TODO: hash password
-        password,
+        password: await bcrypt.hash(password, 10),
       },
     });
     console.log("success! ", user);
