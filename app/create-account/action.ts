@@ -1,9 +1,11 @@
 "use server";
 
 import db from "@/lib/db";
-import { redirect } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
 import { z } from "zod";
 import bcrypt from "bcrypt";
+import { getIronSession } from "iron-session";
+import { cookies } from "next/headers";
 const checkUniqueEmail = async (email: string) => {
   const user = await db.user.findUnique({
     where: {
@@ -61,10 +63,46 @@ export async function registerAction(prevState: any, formData: FormData) {
         email,
         password: await bcrypt.hash(password, 10),
       },
+      select: {
+        id: true,
+      },
     });
+
+    // iron-session
+    const session = await getIronSession(cookies(), {
+      cookieName: "iron-session",
+      password: process.env.SECRET_KEY!,
+    });
+    //@ts-ignore
+    session.id = user.id;
+    await session.save();
+    redirect("profile", RedirectType.push);
     console.log("success! ", user);
   } catch (err) {
     console.log(err);
   }
   redirect(`/`);
 }
+
+const createUser = async (data: {
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
+}) => {
+  const { email, password, username: name } = data;
+  const user = await db.user.create({
+    data: {
+      name,
+      email,
+      password: await bcrypt.hash(password, 10),
+    },
+    select: {
+      id: true,
+    },
+  });
+  getIronSession(cookies(), {
+    cookieName: "iron-session",
+    password: process.env.SECRET_KEY!,
+  });
+};
