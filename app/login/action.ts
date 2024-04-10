@@ -3,8 +3,9 @@
 import db from "@/lib/db";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import { getSession, saveSession } from "@/lib/session";
-import { RedirectType, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
+import jwt from "jsonwebtoken";
+import { findUser } from "@/lib/auth";
 
 const loginSchema = z
   .object({
@@ -43,9 +44,6 @@ const loginSchema = z
         path: ["password"],
       });
     }
-    // login
-    const session = await getSession();
-    await saveSession(session, user.id);
   });
 
 export const loginAction = async (prevState: any, formData: FormData) => {
@@ -56,10 +54,21 @@ export const loginAction = async (prevState: any, formData: FormData) => {
       email: formData.get("email"),
       password: formData.get("password"),
     };
+
+    // validation
     const result = await loginSchema.safeParseAsync(data);
+
+    // gaurd
     if (!result.success) {
       return result.error.flatten();
     }
+
+    // login
+    const user = await findUser({ type: "email", value: result.data.email });
+    if (!user) return;
+    const { id, email, username } = user;
+    const token = jwt.sign({ id, email, username }, process.env.SECRET_KEY!);
+    console.log(token);
   } catch (err) {
     console.log(err);
   }

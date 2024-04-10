@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse, NextMiddleware } from "next/server";
-import { getSession } from "./lib/session";
 console.log("middleware");
 
 interface PublicOnlyUrl {
@@ -14,14 +13,14 @@ const pulicOnlyUrl: PublicOnlyUrl = {
 };
 
 export const middleware: NextMiddleware = async (req, event) => {
-  const session = await getSession();
-  const accessingPublicPage = pulicOnlyUrl[req.nextUrl.pathname];
-  if (!session.id && !accessingPublicPage) {
-    return NextResponse.redirect(new URL("/", req.nextUrl.origin));
-  }
-  if (session.id && accessingPublicPage) {
-    return NextResponse.redirect(new URL("/products", req.nextUrl.origin));
-  }
+  // const session = await getSession();
+  // const accessingPublicOnlyUrl = pulicOnlyUrl[req.nextUrl.pathname];
+  // if (!session.id && !accessingPublicOnlyUrl) {
+  //   return NextResponse.redirect(new URL("/", req.nextUrl.origin));
+  // }
+  // if (session.id && accessingPublicOnlyUrl) {
+  //   return NextResponse.redirect(new URL("/products", req.nextUrl.origin));
+  // }
 };
 
 export const config = {

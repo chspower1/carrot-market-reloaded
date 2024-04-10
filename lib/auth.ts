@@ -43,12 +43,35 @@ export const isEmailUnique = async (email: string) => {
   });
   return !user;
 };
-export const findUser = async (userId: number) => {
-  const user = await db.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
-  return user;
+
+interface FindUserProps {
+  type: "id" | "username" | "email";
+  value: number | string;
+}
+export const findUser = async ({ type, value }: FindUserProps) => {
+  let user;
+  if (type === "id") {
+    user = await db.user.findUnique({
+      where: {
+        id: value as number,
+      },
+    });
+  }
+  if (type === "email") {
+    user = await db.user.findUnique({
+      where: {
+        email: value as string,
+      },
+    });
+  }
+  if (type === "username") {
+    user = await db.user.findUnique({
+      where: {
+        username: value as string,
+      },
+    });
+  }
+
+  return user ?? null;
 };
 const hashedPassword = async (password: string) => await bcrypt.hash(password, 10);
