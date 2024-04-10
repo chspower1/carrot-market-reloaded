@@ -28,7 +28,7 @@ export async function smsAction(prevState: SMSForm, formData: FormData) {
                 phone: result.data,
               },
               create: {
-                name: "random",
+                username: "random",
                 phone: result.data,
               },
             },

@@ -43,5 +43,12 @@ export const isEmailUnique = async (email: string) => {
   });
   return !user;
 };
-
+export const findUser = async (userId: number) => {
+  const user = await db.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+  return user;
+};
 const hashedPassword = async (password: string) => await bcrypt.hash(password, 10);

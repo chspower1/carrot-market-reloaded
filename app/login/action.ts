@@ -4,7 +4,7 @@ import db from "@/lib/db";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { getSession, saveSession } from "@/lib/session";
-import { redirect } from "next/navigation";
+import { RedirectType, redirect } from "next/navigation";
 
 const loginSchema = z
   .object({
@@ -45,7 +45,7 @@ const loginSchema = z
     }
     // login
     const session = await getSession();
-    saveSession(session, user.id);
+    await saveSession(session, user.id);
   });
 
 export const loginAction = async (prevState: any, formData: FormData) => {
