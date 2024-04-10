@@ -25,7 +25,7 @@ function LoginPage() {
         name="password"
         errorMessages={state?.fieldErrors.password}
       />
-      <SubmitButton>Create Account</SubmitButton>
+      <SubmitButton>Login</SubmitButton>
       <div className="w-full h-px bg-gray-600 my-5"></div>
       <div className="flex flex-col gap-3 w-full">
         <Link className="btn btn-accent w-full" href="/create-account">

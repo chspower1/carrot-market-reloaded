@@ -6,17 +6,8 @@ import { z } from "zod";
 import bcrypt from "bcrypt";
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
-const checkUniqueEmail = async (email: string) => {
-  const user = await db.user.findUnique({
-    where: {
-      email,
-    },
-    select: {
-      id: true,
-    },
-  });
-  return !user;
-};
+import { getSession, saveSession } from "@/lib/session";
+import { checkUniqueEmail, hashedPassword } from "@/lib/auth";
 
 const registerSchema = z
   .object({
@@ -61,7 +52,7 @@ export async function registerAction(prevState: any, formData: FormData) {
       data: {
         name,
         email,
-        password: await bcrypt.hash(password, 10),
+        password: await hashedPassword(password),
       },
       select: {
         id: true,
@@ -69,15 +60,9 @@ export async function registerAction(prevState: any, formData: FormData) {
     });
 
     // iron-session
-    const session = await getIronSession(cookies(), {
-      cookieName: "iron-session",
-      password: process.env.SECRET_KEY!,
-    });
-    //@ts-ignore
-    session.id = user.id;
-    await session.save();
-    redirect("profile", RedirectType.push);
-    console.log("success! ", user);
+    const session = await getSession();
+    saveSession(session, user.id);
+    redirect("/profile", RedirectType.push);
   } catch (err) {
     console.log(err);
   }
