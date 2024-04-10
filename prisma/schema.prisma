@@ -15,7 +15,7 @@ model User {
   naverId  String?   @unique
   kakaoId  String?   @unique
   googleId String?   @unique
-  name     String
+  username String    @unique
   createAt DateTime  @default(now())
   updateAt DateTime  @updatedAt
   SMSToken SmsToken?

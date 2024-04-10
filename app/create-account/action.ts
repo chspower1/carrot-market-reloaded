@@ -1,11 +1,7 @@
 "use server";
 
-import db from "@/lib/db";
 import { RedirectType, redirect } from "next/navigation";
 import { z } from "zod";
-import bcrypt from "bcrypt";
-import { getIronSession } from "iron-session";
-import { cookies } from "next/headers";
 import { getSession, saveSession } from "@/lib/session";
 import { isEmailUnique, isUsernameUnique, createUser } from "@/lib/auth";
 
