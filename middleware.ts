@@ -9,6 +9,8 @@ interface PublicOnlyUrl {
 const pulicOnlyUrl: PublicOnlyUrl = {
   "/": true,
   "/login": true,
+  "/login/github/start": true,
+  "/login/github/complete": true,
   "/sms": true,
   "/create-account": true,
 };

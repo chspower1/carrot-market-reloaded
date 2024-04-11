@@ -32,6 +32,10 @@ function LoginPage() {
           <ChatBubbleLeftEllipsisIcon className="w-5 h-5" />
           Sign up
         </Link>
+        <Link className="btn btn-accent w-full" href="/login/github/start">
+          <ChatBubbleLeftEllipsisIcon className="w-5 h-5" />
+          Github
+        </Link>
         <Link className="btn btn-accent w-full" href="/sms">
           <ChatBubbleLeftEllipsisIcon className="w-5 h-5" />
           Sign up with SMS
