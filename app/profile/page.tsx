@@ -6,7 +6,7 @@ import React from "react";
 const getUser = async () => {
   const session = await getSession();
   if (!session.id) return notFound();
-  const user = await findUser(session.id);
+  const user = await findUser({ id: session.id });
   return user;
 };
 export default async function ProfilePage() {

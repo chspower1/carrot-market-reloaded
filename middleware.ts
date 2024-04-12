@@ -17,11 +17,11 @@ const pulicOnlyUrl: PublicOnlyUrl = {
 
 export const middleware: NextMiddleware = async (req, event) => {
   const session = await getSession();
-  const accessingPublicPage = pulicOnlyUrl[req.nextUrl.pathname];
-  if (!session.id && !accessingPublicPage) {
+  const publicOnlyPage = pulicOnlyUrl[req.nextUrl.pathname];
+  if (!session.id && !publicOnlyPage) {
     return NextResponse.redirect(new URL("/", req.nextUrl.origin));
   }
-  if (session.id && accessingPublicPage) {
+  if (session.id && publicOnlyPage) {
     return NextResponse.redirect(new URL("/products", req.nextUrl.origin));
   }
 };
